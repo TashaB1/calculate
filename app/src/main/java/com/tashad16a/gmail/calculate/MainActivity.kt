@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var postnot: String
     var enterFlag: Boolean = false
     val operation: String = "%^*/+-"
+    var lastEpression: String? = ""
+    var lastAction: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)    //Загрузка ресурса разметки осуществляется в методе Activity.onCreate
@@ -23,6 +25,26 @@ class MainActivity : AppCompatActivity() {
         // получаем поля по id из файла activity_main.xml
         textDisplay1 = findViewById(R.id.textViewD1)
         textDisplay2 = findViewById(R.id.textViewD2)
+    }
+
+    // сохранение состояния
+    override fun onSaveInstanceState(outState: Bundle) {
+        lastEpression = textDisplay1.getText().toString()
+        outState.putString("EXPRESSION", lastEpression)
+        if (!textDisplay2.getText().toString().equals("0")) {
+            lastAction = textDisplay2.getText().toString()
+            outState.putString("ACTION", lastAction)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    // получение ранее сохраненного состояния
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        lastEpression = savedInstanceState.getString("EXPRESSION")
+        lastAction = savedInstanceState.getString("ACTION")
+        textDisplay1.setText(lastEpression)
+        textDisplay2.setText(lastAction)
     }
 
     // обработка нажатия на числовую кнопку
