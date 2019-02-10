@@ -40,7 +40,9 @@
             android:layout_columnWeight="1"
             android:text="CE"
             android:textColor="#ee3b3b"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOtherActionClick"/>
 
         <Button
@@ -49,7 +51,9 @@
             android:layout_columnWeight="1"
             android:text="C"
             android:textColor="#ee3b3b"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOtherActionClick"/>
 
         <Button
@@ -58,7 +62,9 @@
             android:layout_columnWeight="1"
             android:text="←"
             android:textColor="#ee3b3b"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOtherActionClick"/>
 
         <Button
@@ -66,8 +72,10 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="/"
+            android:background="#f0f0f0"
             android:textColor="#104e8b"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOperationClick"/>
 
         <Button
@@ -75,7 +83,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="7"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -83,7 +93,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="8"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -91,7 +103,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="9"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -99,7 +113,9 @@
             android:layout_columnWeight="1"
             android:text="*"
             android:textColor="#104e8b"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOperationClick"/>
 
         <Button
@@ -107,7 +123,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="4"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -115,7 +133,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="5"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -123,7 +143,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="6"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -132,7 +154,9 @@
             android:layout_columnWeight="1"
             android:text="-"
             android:textColor="#104e8b"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOperationClick"/>
 
         <Button
@@ -140,7 +164,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="1"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -148,7 +174,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="2"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -156,7 +184,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="3"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -165,7 +195,9 @@
             android:layout_columnWeight="1"
             android:text="+"
             android:textColor="#104e8b"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOperationClick"/>
 
         <Button
@@ -174,7 +206,9 @@
             android:layout_columnWeight="1"
             android:layout_columnSpan="2"
             android:text="0"
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onDigitClick"/>
 
         <Button
@@ -182,7 +216,9 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="."
+            android:background="#f0f0f0"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onOtherActionClick"/>
 
         <Button
@@ -192,6 +228,7 @@
             android:text="="
             android:background="#87ceeb"
             android:textSize="30sp"
+            android:layout_margin="2dp"
             android:onClick="onEnterClick"/>
 
     </GridLayout>
