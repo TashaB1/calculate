@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         if (enterFlag) {
             textDisplay1.setText("")
-            textDisplay2.setText("")
             enterFlag = false
         }
 
