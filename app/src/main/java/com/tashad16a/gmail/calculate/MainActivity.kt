@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     val operation: String = "%^*/+-"
     var lastEpression: String? = ""
     var lastAction: String? = ""
+    var expression: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)    //Загрузка ресурса разметки осуществляется в методе Activity.onCreate
@@ -101,7 +102,6 @@ class MainActivity : AppCompatActivity() {
                 textDisplay2.setText("")
             } else {
                 if (!textDisplay2.getText().toString().equals("") && !textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals("/")) {
-                    System.out.print(lastSymb(textDisplay1))
                     if (textDisplay2.getText().toString().equals("0")) {
                         textDisplay2.setText("")
                         textDisplay1.setText("Деление на ноль невозможно")
@@ -118,18 +118,36 @@ class MainActivity : AppCompatActivity() {
     // обработка нажатия на кнопку "=" (Итог)
     fun onEnterClick(view: View) {
 
+        var expression: String? = ""
         val geo = GetExpressionOpz()
         val calc = CalcExpression()   /* "(50-5.3)-80"); */
         if (!textDisplay1.getText().toString().equals("")) {
-            if (!textDisplay2.getText().toString().equals(""))
-                textDisplay1.setText(textDisplay1.getText().toString() + textDisplay2.getText().toString())
-            else textDisplay1.setText(textDisplay1.getText().toString() + "0")
-            postnot = geo.ParseExpression(textDisplay1.getText().toString()) //Преобразовываем выражение в постфиксную запись
-            result = calc.CalcExpression(postnot) //Решаем полученное выражение
+            if (!textDisplay2.getText().toString().equals("")) {
 
-            textDisplay2.setText(result.toString())
+                if (!textDisplay2.getText().toString().equals("0")) {
+                    textDisplay1.setText(textDisplay1.getText().toString() + textDisplay2.getText().toString())
+                    expression = textDisplay1.getText().toString()
+
+                    if (textDisplay1.getText().get(0).toString().equals("-")) {
+                        expression = "0" + textDisplay1.getText().toString()
+                    }
+                } else {
+                    if (!textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals("/")) {
+                        textDisplay2.setText("")
+                        textDisplay1.setText("Деление на ноль невозможно")
+                        enterFlag = true
+                        return
+                    } else expression = textDisplay1.getText().toString() + textDisplay2.getText().toString()
+                }
+
+                postnot = geo.ParseExpression(expression) //Преобразовываем выражение в постфиксную запись
+                result = calc.CalcExpression(postnot) //Решаем полученное выражение
+                textDisplay2.setText(result.toString())
+            }
+            else textDisplay1.setText("")
+
             enterFlag = true
-        }
+        } else textDisplay2.setText("")
     }
     // обработка нажатия на иные кнопки
     fun onOtherActionClick(view: View) {
