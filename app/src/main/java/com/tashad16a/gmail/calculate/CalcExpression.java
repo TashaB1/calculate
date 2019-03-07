@@ -1,39 +1,57 @@
 package com.tashad16a.gmail.calculate;
 
+import android.util.Log;
+
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+@ConstantName
 class CalcExpression {
-    public double CalcExpression(String postnot) {
+    public double CalcExpression(String postfixNotation) {
+        Double secondNumberInStack, firstNumberInStack;
+        String word;
         Stack<Double> stack = new Stack<Double>();
-        String word = "";
-        StringTokenizer tokenizer = new StringTokenizer(postnot, " ", false); //разбиваем выражение на слова, разделители включаются в число слов
+        StringTokenizer tokenizer = new StringTokenizer(postfixNotation, ConstantName.SPACE, false);
 
-        while (tokenizer.hasMoreTokens()) { //пока в строке еще есть слова
-            word = tokenizer.nextToken(); //возвращает в виде строки следующее слово
+        while (tokenizer.hasMoreTokens()) {
+            word = tokenizer.nextToken();
+
             try {
-                if (word.equals("+")) stack.push(stack.pop() + stack.pop());
-                else if (word.equals("-")) {
-                    Double b = stack.pop(), a = stack.pop();
-                    stack.push(a - b);
-                } else if (word.equals("*")) stack.push(stack.pop() * stack.pop());
-                else if (word.equals("/")) {
-                    Double b = stack.pop(), a = stack.pop();
-                    Double c = a / b;
-                    stack.push(c);
-                } else if (word.equals("%")) {
-                    Double b = stack.pop(), a = stack.peek();
-                    stack.push(a * b / 100);
-                } else if (word.equals("^")) {
-                    Double b = stack.pop(), a = stack.pop();
-                    stack.push(Math.pow(a, b));
-                } else stack.push(Double.valueOf(word));
+                switch (word) {
+                    case ConstantName.ADDITION_OPERATION:
+                        stack.push(stack.pop() + stack.pop());
+                        break;
+                    case ConstantName.SUBSTRACTION_OPERATION:
+                        firstNumberInStack = stack.pop();
+                        secondNumberInStack = stack.pop();
+                        stack.push(secondNumberInStack - firstNumberInStack);
+                        break;
+                    case ConstantName.MULTIPLICATION_OPERATION:
+                        stack.push(stack.pop() * stack.pop());
+                        break;
+                    case ConstantName.DIVISION_OPERATION:
+                        firstNumberInStack = stack.pop();
+                        secondNumberInStack = stack.pop();
+                        stack.push(secondNumberInStack / firstNumberInStack);
+                        break;
+                    case ConstantName.PERCENT_OPERATION:
+                        firstNumberInStack = stack.pop();
+                        secondNumberInStack = stack.peek();
+                        stack.push(secondNumberInStack * firstNumberInStack / 100);
+                        break;
+                    case ConstantName.INVOLUTION_OPERATION:
+                        firstNumberInStack = stack.pop();
+                        secondNumberInStack = stack.pop();
+                        stack.push(Math.pow(secondNumberInStack, firstNumberInStack));
+                        break;
+                    default:
+                        stack.push(Double.valueOf(word));
+                }
+            } catch (Exception e) {
+                Log.w(e.getMessage(), e);
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
         }
+
         return stack.pop();
     }
 }

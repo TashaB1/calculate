@@ -6,68 +6,62 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Button
 
+@ConstantName
 class MainActivity : AppCompatActivity() {
-
-    lateinit var textDisplay1: TextView // текстовое поле для вывода результата
-    lateinit var textDisplay2: TextView// текстовое поле для вывода знака операции
+    lateinit var textDisplay1: TextView
+    lateinit var textDisplay2: TextView
+    lateinit var postfixNotation: String
     var result: Double = 0.0
-    lateinit var postnot: String
     var enterFlag: Boolean = false
-    val operation: String = "%^*/+-"
     var lastEpression: String? = ""
     var lastAction: String? = ""
-    var expression: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)    //Загрузка ресурса разметки осуществляется в методе Activity.onCreate
+        super.onCreate(savedInstanceState)
 
-        // устанавливаем в качестве интерфейса файл activity_main.xml
         setContentView(R.layout.activity_main)
-        // получаем поля по id из файла activity_main.xml
         textDisplay1 = findViewById(R.id.textViewD1)
         textDisplay2 = findViewById(R.id.textViewD2)
     }
 
-    // сохранение состояния
     override fun onSaveInstanceState(outState: Bundle) {
         lastEpression = textDisplay1.getText().toString()
         outState.putString("EXPRESSION", lastEpression)
-        if (!textDisplay2.getText().toString().equals("0")) {
+
+        if (!textDisplay2.getText().toString().equals(ConstantName.ZERO_DIGIT)) {
             lastAction = textDisplay2.getText().toString()
             outState.putString("ACTION", lastAction)
         }
+
         super.onSaveInstanceState(outState)
     }
 
-    // получение ранее сохраненного состояния
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+
         lastEpression = savedInstanceState.getString("EXPRESSION")
         lastAction = savedInstanceState.getString("ACTION")
         textDisplay1.setText(lastEpression)
         textDisplay2.setText(lastAction)
     }
 
-    // обработка нажатия на числовую кнопку
     fun onDigitClick(view: View) {
-
         val button = view as Button
 
-        if (enterFlag || textDisplay1.getText().equals("Деление на ноль невозможно")) {
+        if (enterFlag || textDisplay1.getText().equals(ConstantName.ERROR_DIVISION_BY_ZERO)) {
             textDisplay1.setText("")
             textDisplay2.setText("")
             enterFlag = false
         }
 
-        if (textDisplay2.getText().toString().equals("0")) {
+        if (textDisplay2.getText().toString().equals(ConstantName.ZERO_DIGIT)) {
             textDisplay2.setText(button.getText())
         } else {
             textDisplay2.append(button.getText())
         }
     }
-    // обработка нажатия на кнопку операцию (+-*/)
-    fun onOperationClick(view: View) {
 
+    fun onOperationClick(view: View) {
         val button = view as Button
 
         if (enterFlag) {
@@ -75,37 +69,42 @@ class MainActivity : AppCompatActivity() {
             enterFlag = false
         }
 
-        if (!textDisplay2.getText().toString().equals("") && lastSymb(textDisplay2).equals(".")) {
-            textDisplay1.append(textDisplay2.getText().toString() + "0" + button.getText())
+        if (!textDisplay2.getText().toString().equals("") && lastSymb(textDisplay2).equals(ConstantName.POINT)) {
+            textDisplay1.append(textDisplay2.getText().toString() + ConstantName.ZERO_DIGIT + button.getText())
             textDisplay2.setText("")
         }
 
         if (textDisplay1.getText().toString().equals("")) {
-            if ((button.getText().toString().equals("-") || button.getText().toString().equals("+")) && textDisplay1.getText().toString().equals("")) {
+
+            if ((button.getText().toString().equals(ConstantName.SUBSTRACTION_OPERATION) || button.getText().toString().equals(ConstantName.ADDITION_OPERATION)) && textDisplay1.getText().toString().equals("")) {
                 if (textDisplay2.getText().toString().equals("")) {
-                    textDisplay1.setText(textDisplay1.getText().toString() + "0" + button.getText() + textDisplay2.getText().toString())
+                    textDisplay1.setText(textDisplay1.getText().toString() + ConstantName.ZERO_DIGIT + button.getText() + textDisplay2.getText().toString())
+
                     return
                 }
             }
 
-            if ((button.getText().toString().equals("/") || button.getText().toString().equals("*")) && textDisplay1.getText().toString().equals("")) {
+            if ((button.getText().toString().equals(ConstantName.DIVISION_OPERATION) || button.getText().toString().equals(ConstantName.MULTIPLICATION_OPERATION)) && textDisplay1.getText().toString().equals("")) {
                 if (textDisplay2.getText().toString().equals("")) {
                     textDisplay1.setText("")
+
                     return
                 }
             }
+
             textDisplay1.setText(textDisplay1.getText().toString() + textDisplay2.getText().toString() + button.getText())
             textDisplay2.setText("")
         } else {
-            if ((!textDisplay1.getText().toString().equals("")) && (textDisplay2.getText().toString().equals("")) && (operation.indexOf(lastSymb(textDisplay1)) > -1)) {
+            if ((!textDisplay1.getText().toString().equals("")) && (textDisplay2.getText().toString().equals("")) && (ConstantName.OPERATIONS.indexOf(lastSymb(textDisplay1)) > -1)) {
                 textDisplay1.setText(textDisplay1.getText().toString().substring(0, textDisplay1.getText().toString().length - 1) + button.getText())
                 textDisplay2.setText("")
             } else {
-                if (!textDisplay2.getText().toString().equals("") && !textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals("/")) {
-                    if (textDisplay2.getText().toString().equals("0")) {
+                if (!textDisplay2.getText().toString().equals("") && !textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals(ConstantName.DIVISION_OPERATION)) {
+                    if (textDisplay2.getText().toString().equals(ConstantName.ZERO_DIGIT)) {
                         textDisplay2.setText("")
-                        textDisplay1.setText("Деление на ноль невозможно")
+                        textDisplay1.setText(ConstantName.ERROR_DIVISION_BY_ZERO)
                         enterFlag = true
+
                         return
                     }
                 } else {
@@ -115,41 +114,44 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    // обработка нажатия на кнопку "=" (Итог)
-    fun onEnterClick(view: View) {
 
-        var expression: String? = ""
+    fun onEnterClick(view: View) {
         val geo = GetExpressionOpz()
-        val calc = CalcExpression()   /* "(50-5.3)-80"); */
+        val calc = CalcExpression()
+        var expression: String? = ""
+
         if (!textDisplay1.getText().toString().equals("")) {
             if (!textDisplay2.getText().toString().equals("")) {
-
-                if (!textDisplay2.getText().toString().equals("0")) {
+                if (!textDisplay2.getText().toString().equals(ConstantName.ZERO_DIGIT)) {
                     textDisplay1.setText(textDisplay1.getText().toString() + textDisplay2.getText().toString())
                     expression = textDisplay1.getText().toString()
-
-                    if (textDisplay1.getText().get(0).toString().equals("-")) {
-                        expression = "0" + textDisplay1.getText().toString()
+                    if (textDisplay1.getText().get(0).toString().equals(ConstantName.SUBSTRACTION_OPERATION)) {
+                        expression = ConstantName.ZERO_DIGIT + textDisplay1.getText().toString()
                     }
                 } else {
-                    if (!textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals("/")) {
+                    if (!textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals(ConstantName.DIVISION_OPERATION)) {
                         textDisplay2.setText("")
-                        textDisplay1.setText("Деление на ноль невозможно")
+                        textDisplay1.setText(ConstantName.ERROR_DIVISION_BY_ZERO)
                         enterFlag = true
+
                         return
-                    } else expression = textDisplay1.getText().toString() + textDisplay2.getText().toString()
+                    } else {
+                        expression = textDisplay1.getText().toString() + textDisplay2.getText().toString()
+                    }
                 }
 
-                postnot = geo.ParseExpression(expression) //Преобразовываем выражение в постфиксную запись
-                result = calc.CalcExpression(postnot) //Решаем полученное выражение
+                postfixNotation = geo.ParseExpression(expression)
+                result = calc.CalcExpression(postfixNotation)
                 textDisplay2.setText(result.toString())
+            } else {
+                textDisplay1.setText("")
             }
-            else textDisplay1.setText("")
-
             enterFlag = true
-        } else textDisplay2.setText("")
+        } else {
+            textDisplay2.setText("")
+        }
     }
-    // обработка нажатия на иные кнопки
+
     fun onOtherActionClick(view: View) {
 
         val button = view as Button
@@ -162,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             "C" -> textDisplay2.setText("")
             "." -> {
                 if (textDisplay2.getText().toString().equals("")) {
-                    textDisplay2.setText("0" + button.getText())
+                    textDisplay2.setText(ConstantName.ZERO_DIGIT + button.getText())
                 } else {
                     if (textDisplay2.getText().toString().indexOf(button.getText().toString()) == -1) {
                         textDisplay2.append(button.getText())
@@ -178,13 +180,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun lastSymb(expression: TextView): String {
-        val lastSymb: String
-        val indLastSymb: Int
+        val lastSymbol: String
+        val indLastSymbol: Int
+
         if (!expression.getText().equals("")) {
-            indLastSymb = expression.getText().length - 1
-            lastSymb = expression.getText().get(indLastSymb).toString()
-            return lastSymb
+            indLastSymbol = expression.getText().length - 1
+            lastSymbol = expression.getText().get(indLastSymbol).toString()
+
+            return lastSymbol
         }
+
         return ""
     }
 }

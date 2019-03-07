@@ -3,58 +3,76 @@ package com.tashad16a.gmail.calculate;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+@ConstantName
 class GetExpressionOpz {
-    private static String delimiters = "%^*/+-() ";
 
-    public static boolean isDelimiter(String delim) {
-        if (delimiters.indexOf(delim) != -1)
+    public static boolean isDelimiter(String delimeters) {
+        if (ConstantName.DELIMETERS.indexOf(delimeters) != -1) {
             return true;
+        }
+
         return false;
     }
 
-    public static int priority(String oper) {
-        if (oper.equals("(")) return 1;
-        if (oper.equals("+") || oper.equals("-")) return 2;
-        if (oper.equals("*") || oper.equals("/")) return 3;
-        if (oper.equals("%")) return 4;
-        if (oper.equals("^")) return 5;
-        return 6;
+    public static int priority(String operation) {
+        switch (operation) {
+            case ConstantName.ROUND_BRACKET_LEFT:
+                return 1;
+            case ConstantName.ADDITION_OPERATION:
+                return 2;
+            case ConstantName.SUBSTRACTION_OPERATION:
+                return 2;
+            case ConstantName.MULTIPLICATION_OPERATION:
+                return 3;
+            case ConstantName.DIVISION_OPERATION:
+                return 3;
+            case ConstantName.PERCENT_OPERATION:
+                return 4;
+            case ConstantName.INVOLUTION_OPERATION:
+                return 5;
+            default:
+                return 6;
+        }
     }
 
-    public String ParseExpression(String infnot) {
-        String postnot = new String();
+    public String ParseExpression(String infixNotation) {
+        String word;
+        String postfixNotation;
+
+        postfixNotation = new String();
         Stack<String> stack = new Stack<String>();
-        StringTokenizer tokenizer = new StringTokenizer(infnot, delimiters, true); //разбиваем выражение на слова, разделители включаются в число слов
+        StringTokenizer tokenizer = new StringTokenizer(infixNotation, ConstantName.DELIMETERS, true);
 
-        String word = "";
+        while (tokenizer.hasMoreTokens()) {
+            word = tokenizer.nextToken();
 
-        while (tokenizer.hasMoreTokens()) { //пока в строке еще есть слова
-            word = tokenizer.nextToken(); //возвращает в виде строки следующее слово
+            if (word.equals(ConstantName.SPACE)) {
+                continue;
+            }
 
-            if (word.equals(" ")) continue;
-
-            if (isDelimiter(word)) {  // если слово - разделитель
-                if (word.equals("(")) stack.push(word);   // если скобка откр. то помещ ее в стек
-                else if (word.equals(")")) {  // извлекаем символы из стека в выходную строку до тех пор, пока не встретим в стеке открывающую скобку
-                    while (!stack.peek().equals("(")) {
-                        postnot += stack.pop() + " ";   // для массива postnot.add((String) stack.pop());
+            if (isDelimiter(word)) {
+                if (word.equals(ConstantName.ROUND_BRACKET_LEFT)) {
+                    stack.push(word);
+                } else if (word.equals(ConstantName.ROUND_BRACKET_RIGHT)) {
+                    while (!stack.peek().equals(ConstantName.ROUND_BRACKET_LEFT)) {
+                        postfixNotation += stack.pop() + ConstantName.SPACE;
                     }
-                    stack.pop(); // уничтожили "("
+                    stack.pop();
                 } else {
-                    while (!stack.isEmpty() && (priority(word) <= priority(String.valueOf(stack.peek())))) { /* если символ на вершине стека имеет приоритет >= приоритету текущего символа
-                                                                                                                то извлекаем символы в выходную строку до тех пор по вып-ся это условие*/
-                        postnot += stack.pop() + " ";
+                    while (!stack.isEmpty() && (priority(word) <= priority(String.valueOf(stack.peek())))) {
+                        postfixNotation += stack.pop() + ConstantName.SPACE;
                     }
-                    stack.push(word);/* если стек пуст или находящиеся в нем символы(знаки операц и скобки) имеют меньший приоритет, чем приоритет текущего символа
-                                        то помещаем текущий символ в стек */
+                    stack.push(word);
                 }
             } else {
-                postnot += word + " ";
+                postfixNotation += word + ConstantName.SPACE;
             }
         }
-        while (!stack.isEmpty()) {  //если входная строка разобрана, а в стеке остаются знаки операций, извлекаем их в вых стр
-            postnot += stack.pop() + " ";
+
+        while (!stack.isEmpty()) {
+            postfixNotation += stack.pop() + ConstantName.SPACE;
         }
-        return postnot;
+
+        return postfixNotation;
     }
 }

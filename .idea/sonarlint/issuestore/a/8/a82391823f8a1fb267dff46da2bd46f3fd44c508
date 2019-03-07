@@ -1,0 +1,10 @@
+
+kotlin:S1192:"rDefine a constant instead of duplicating this literal "Ğ”ĞµĞ»ĞµĞ½Ğ¸Ğµ Ğ½Ğ° Ğ½Ğ¾Ğ»ÑŒ Ğ½ĞµĞ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾" 3 times.(Éù¤Îøÿÿÿÿ
+jkotlin:S3776G"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(˜´îÅ
+ikotlin:S117H"RRename this local variable to match the regular expression "^[_a-z][a-zA-Z0-9]*$".(®«ãÉ
+nkotlin:S117I"RRename this local variable to match the regular expression "^[_a-z][a-zA-Z0-9]*$".(úä¥©ûÿÿÿÿ
+ikotlin:S117J"RRename this local variable to match the regular expression "^[_a-z][a-zA-Z0-9]*$".(“ª„ 
+nkotlin:S117K"RRename this local variable to match the regular expression "^[_a-z][a-zA-Z0-9]*$".(ƒå¦“üÿÿÿÿ
+Fkotlin:S1066Z".Merge this "if" statement with the nested one.(”Å²ú
+Ekotlin:S1066b".Merge this "if" statement with the nested one.(úªä
+kkotlin:S3776€"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(Í‹´Ò

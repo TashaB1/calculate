@@ -1,0 +1,11 @@
+
+Xsquid:S1126"AReplace this if-then-else statement by a single return statement.(÷•Œ§
+>squid:S2129&" Remove this "String" constructor(Ù¸§û8œùÊ•-
+:squid:S16433"Use a StringBuilder instead.(†ã‡õ8œùÊ•-
+|squid:S2293'"YReplace the type specification in this constructor call with the diamond operator ("<>").(·ìÅéøÿÿÿÿ8œùÊ•-
+msquid:S00100""NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëåË›8œùÊ•-
+ssquid:S1149'"PReplace the synchronized class "Stack" by an unsynchronized one such as "Deque".(·ìÅéøÿÿÿÿ8œùÊ•-
+psquid:S3776""RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(ëåË›8œùÊ•-
+:squid:S1643="Use a StringBuilder instead.(šÑöä8œùÊ•-
+:squid:S1643A"Use a StringBuilder instead.(†ã‡õ8œùÊ•-
+:squid:S16438"Use a StringBuilder instead.(†ã‡õ8œùÊ•-
