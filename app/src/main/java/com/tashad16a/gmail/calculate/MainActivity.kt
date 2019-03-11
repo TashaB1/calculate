@@ -69,15 +69,15 @@ class MainActivity : AppCompatActivity() {
             enterFlag = false
         }
 
-        if (!textDisplay2.getText().toString().equals("") && lastSymb(textDisplay2).equals(ConstantName.POINT)) {
+        if (isTextViewNotEmpty(textDisplay2) && lastSymb(textDisplay2).equals(ConstantName.POINT)) {
             textDisplay1.append(textDisplay2.getText().toString() + ConstantName.ZERO_DIGIT + button.getText())
             textDisplay2.setText("")
         }
 
-        if (textDisplay1.getText().toString().equals("")) {
+        if (!isTextViewNotEmpty(textDisplay1)) {
 
             if ((button.getText().toString().equals(ConstantName.SUBSTRACTION_OPERATION) || button.getText().toString().equals(ConstantName.ADDITION_OPERATION)) && textDisplay1.getText().toString().equals("")) {
-                if (textDisplay2.getText().toString().equals("")) {
+                if (!isTextViewNotEmpty(textDisplay2)) {
                     textDisplay1.setText(textDisplay1.getText().toString() + ConstantName.ZERO_DIGIT + button.getText() + textDisplay2.getText().toString())
 
                     return
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             if ((button.getText().toString().equals(ConstantName.DIVISION_OPERATION) || button.getText().toString().equals(ConstantName.MULTIPLICATION_OPERATION)) && textDisplay1.getText().toString().equals("")) {
-                if (textDisplay2.getText().toString().equals("")) {
+                if (!isTextViewNotEmpty(textDisplay2)) {
                     textDisplay1.setText("")
 
                     return
@@ -95,11 +95,11 @@ class MainActivity : AppCompatActivity() {
             textDisplay1.setText(textDisplay1.getText().toString() + textDisplay2.getText().toString() + button.getText())
             textDisplay2.setText("")
         } else {
-            if ((!textDisplay1.getText().toString().equals("")) && (textDisplay2.getText().toString().equals("")) && (ConstantName.OPERATIONS.indexOf(lastSymb(textDisplay1)) > -1)) {
+            if ((isTextViewNotEmpty(textDisplay1)) && (!isTextViewNotEmpty(textDisplay2)) && (ConstantName.OPERATIONS.indexOf(lastSymb(textDisplay1)) > -1)) {
                 textDisplay1.setText(textDisplay1.getText().toString().substring(0, textDisplay1.getText().toString().length - 1) + button.getText())
                 textDisplay2.setText("")
             } else {
-                if (!textDisplay2.getText().toString().equals("") && !textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals(ConstantName.DIVISION_OPERATION)) {
+                if (isTextViewNotEmpty(textDisplay2) && isTextViewNotEmpty(textDisplay1) && lastSymb(textDisplay1).equals(ConstantName.DIVISION_OPERATION)) {
                     if (textDisplay2.getText().toString().equals(ConstantName.ZERO_DIGIT)) {
                         textDisplay2.setText("")
                         textDisplay1.setText(ConstantName.ERROR_DIVISION_BY_ZERO)
@@ -120,8 +120,8 @@ class MainActivity : AppCompatActivity() {
         val calc = CalcExpression()
         var expression: String? = ""
 
-        if (!textDisplay1.getText().toString().equals("")) {
-            if (!textDisplay2.getText().toString().equals("")) {
+        if (isTextViewNotEmpty(textDisplay1)) {
+            if (isTextViewNotEmpty(textDisplay2)) {
                 if (!textDisplay2.getText().toString().equals(ConstantName.ZERO_DIGIT)) {
                     textDisplay1.setText(textDisplay1.getText().toString() + textDisplay2.getText().toString())
                     expression = textDisplay1.getText().toString()
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                         expression = ConstantName.ZERO_DIGIT + textDisplay1.getText().toString()
                     }
                 } else {
-                    if (!textDisplay1.getText().toString().equals("") && lastSymb(textDisplay1).equals(ConstantName.DIVISION_OPERATION)) {
+                    if (isTextViewNotEmpty(textDisplay1) && lastSymb(textDisplay1).equals(ConstantName.DIVISION_OPERATION)) {
                         textDisplay2.setText("")
                         textDisplay1.setText(ConstantName.ERROR_DIVISION_BY_ZERO)
                         enterFlag = true
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             }
             "C" -> textDisplay2.setText("")
             "." -> {
-                if (textDisplay2.getText().toString().equals("")) {
+                if (!isTextViewNotEmpty(textDisplay2)) {
                     textDisplay2.setText(ConstantName.ZERO_DIGIT + button.getText())
                 } else {
                     if (textDisplay2.getText().toString().indexOf(button.getText().toString()) == -1) {
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         val lastSymbol: String
         val indLastSymbol: Int
 
-        if (!expression.getText().equals("")) {
+        if (isTextViewNotEmpty(expression)) {
             indLastSymbol = expression.getText().length - 1
             lastSymbol = expression.getText().get(indLastSymbol).toString()
 
@@ -191,5 +191,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         return ""
+    }
+
+    fun isTextViewNotEmpty(textView: TextView): Boolean {
+        if (textView.getText().toString().equals("")) {
+            return false
+        }
+        return true
     }
 }
